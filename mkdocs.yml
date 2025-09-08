@@ -1,0 +1,91 @@
+site_name: BrianLM - Cybersecurity
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top  
+    - search.highlight  
+    - search.suggest  
+    - tabs.sticky  
+    - tabs.sticky  
+  palette: 
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Enumeration:
+    - Linux Enumeration: 'enumeration/linux-enumeration.md'
+    - Windows Enumeration: 'enumeration/windows-enumeration.md'
+  - Footprinting & Scanning:
+    - NMAP: 'footprinting-and-scanning/nmap.md'
+    - Nmap Scripting Engine (NSE): 'footprinting-and-scanning/nmap-scripting-engine.md'
+    - Server Message Block (SMB): 'footprinting-and-scanning/server-message-block.md'
+  - Operating Systems:
+    - Linux:
+      - Privilege Escalation: 'operating-systems/linux/privilege-escalation/common-commands.md'
+    - Windows:
+      - Protocols:
+        - Server Message Block (SMB): 'operating-systems/windows/protocols/server-message-block.md'
+      - Vulns:
+        - Privilege Escalation:
+          - load incognito: 'operating-systems/windows/vulns/privilege-escalation/load-incognito.md'
+          - SelmporesionatePrivilege Privilege: 'operating-systems/windows/vulns/privilege-escalation/selmporesionateprivilege-privilege.md'
+      - CMD: 'operating-systems/windows/cmd.md'
+      - Common services: 'operating-systems/windows/common-services.md'
+      - important proccess: 'operating-systems/windows/important-proccess.md'
+  - Protocols: 'protocols.md'
+  - Tips: 
+    - Cadaver: 'tips-tools/cadaver-tips.md'
+    - Crackmapexec: 'tips-tools/crackmapexec-tips.md'
+    - Davtest: 'tips-tools/davtest-tips.md'
+    - Dirb: 'tips-tools/dirb-tips.md'
+    - Enum4Linux: 'tips-tools/enum4linux-tips.md'
+    - Ffuf: 'tips-tools/ffuf-tips.md'
+    - Hydra: 'tips-tools/hydra-tips.md'
+    - Msfconsole: 'tips-tools/msfconsole-tips.md'
+    - Msfvenom: 'tips-tools/msfvenom-tips.md'
+    - Pivoting: 'tips-tools/pivoting-tips.md'
+    - SMBClient: 'tips-tools/smbclient-tips.md'
+    - SMBMap: 'tips-tools/smbmap-tips.md'
+    - SMTP: 'tips-tools/smtp-tips.md'
+    - SMTP Enum: 'tips-tools/smtp-enum-tips.md'
+    - WinRM: 'tips-tools/winrm-tips.md'
+  - Tools:
+    - Cadaver: 'tools/cadaver.md'
+    - Crackmapexec: 'tools/crackmapexec.md'
+    - Davtest: 'tools/davtest.md'
+    - Dirb: 'tools/dirb.md'
+    - Enum4Linux: 'tools/enum4linux.md'
+    - Ffuf: 'tools/ffuf.md'
+    - Httrack: 'tools/httrack.md'
+    - Hydra: 'tools/hydra.md'
+    - Kiwi: 'tools/kiwi.md'
+    - Msfconsole: 'tools/msfconsole.md'
+    - Msfvenom: 'tools/msfvenom.md'
+    - Mysql: 'tools/mysql.md'
+    - Nessus: 'tools/nessus.md'
+    - PSExec: 'tools/psexec.md'
+    - SMBClient: 'tools/smbclient.md'
+    - SMBMap: 'tools/smbmap.md'
+    - WinRM: 'tools/winrm.md'
+    - XfreeRDP: 'tools/xfreerdp.md'
+  - Transferring Files:
+    - Linux:
+      - Transferring Files To Linux: 'transferring-files/linux/transferring-files-to-linux.md'
+    - Windows:
+      - Transferring Files To Windows: 'transferring-files/windows/transferring-files-to-windows.md'
+  - Upgrading Non-Interactive Shells:
+    - Linux:
+      - Upgrading Non-Interactive Shell Linux: 'upgrading-non-interactive-shells/linux/upgrading-non-interactive-shell-linux.md'
+    - Windows:
+      - Upgrading Non-Interactive Shell Windows: 'upgrading-non-interactive-shells/windows/upgrading-non-interactive-shell-windows.md'
