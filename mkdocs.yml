@@ -1,4 +1,5 @@
 site_name: BrianLM - Cybersecurity
+locale: es
 theme:
   name: material
   features:
