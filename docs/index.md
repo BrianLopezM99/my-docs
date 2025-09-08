@@ -6,7 +6,7 @@
 
 ## 📖 El Viaje de un Hacker Ético
 
-Desde que descubrí el mundo del hacking ético, me fascinó la idea de usar el conocimiento técnico para proteger en lugar de dañar. Este repositorio es la materialización de ese viaje. Aquí no solo encontrarás conceptos teóricos, sino también flujos de trabajo prácticos, comandos, scripts y `tips` que he acumulado al enfrentarme a desafíos reales en laboratorios `CTF` (Capture The Flag) y durante mi formación (`En curso de subir los CTFs`).
+Desde que descubrí el mundo del hacking ético, me fascinó la idea de usar el conocimiento técnico para proteger en lugar de dañar. Este repositorio es la materialización de ese viaje. Aquí no solo encontrarás conceptos teóricos, sino también flujos de trabajo prácticos, comandos, scripts y `tips` que he acumulado al enfrentarme a desafíos reales en laboratorios `CTF` (Capture The Flag) y durante mi formación (`En curso de subir los writeups de los CTFs`).
 
 Mi objetivo con este sitio es doble:
 1.  **Consolidar mi propio conocimiento:** Tener un lugar centralizado para acceder y repasar cualquier tema, desde lo más básico hasta lo más complejo.
