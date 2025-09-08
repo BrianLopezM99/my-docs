@@ -1,0 +1,3658 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../linux-enumeration/">
+      
+      
+        <link rel="next" href="../../footprinting-and-scanning/nmap/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+    
+    
+      
+        <title>Windows Enumeration - BrianLM - Cybersecurity</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#explicacion-de-cada-parte" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="BrianLM - Cybersecurity" class="md-header__button md-logo" aria-label="BrianLM - Cybersecurity" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BrianLM - Cybersecurity
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Windows Enumeration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../linux-enumeration/" class="md-tabs__link">
+          
+  
+  
+  Enumeration
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../footprinting-and-scanning/nmap/" class="md-tabs__link">
+          
+  
+  
+  Footprinting & Scanning
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../operating-systems/linux/privilege-escalation/common-commands/" class="md-tabs__link">
+          
+  
+  
+  Operating Systems
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../protocols/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Protocols
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tips-tools/cadaver-tips/" class="md-tabs__link">
+          
+  
+  
+  Tips
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tools/cadaver/" class="md-tabs__link">
+          
+  
+  
+  Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../transferring-files/linux/transferring-files-to-linux/" class="md-tabs__link">
+          
+  
+  
+  Transferring Files
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../upgrading-non-interactive-shells/linux/upgrading-non-interactive-shell-linux/" class="md-tabs__link">
+          
+  
+  
+  Upgrading Non-Interactive Shells
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BrianLM - Cybersecurity" class="md-nav__button md-logo" aria-label="BrianLM - Cybersecurity" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BrianLM - Cybersecurity
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Enumeration
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux-enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Windows Enumeration
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Enumeration
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#explicacion-de-cada-parte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explicación de cada parte:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-de-usuarios-en-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración de Usuarios en Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Enumeración de Usuarios en Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ver-usuarios-locales-en-el-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ver usuarios locales en el sistema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-detalles-de-un-usuario-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver detalles de un usuario específico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-enumerar-usuarios-con-wmic" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Enumerar usuarios con WMIC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ver-usuarios-en-una-maquina-remota" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Ver usuarios en una máquina remota
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-de-grupos-en-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración de Grupos en Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Enumeración de Grupos en Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ver-todos-los-grupos-locales" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ver todos los grupos locales
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-usuarios-dentro-de-un-grupo-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver usuarios dentro de un grupo específico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-enumerar-grupos-con-wmic" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Enumerar grupos con WMIC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-de-usuarios-y-grupos-en-active-directory-si-estas-en-un-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración de Usuarios y Grupos en Active Directory (si estás en un dominio)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Enumeración de Usuarios y Grupos en Active Directory (si estás en un dominio)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-listar-todos-los-usuarios-de-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Listar todos los usuarios de Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-todos-los-grupos-de-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver todos los grupos de Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ver-los-miembros-de-un-grupo-en-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Ver los miembros de un grupo en Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-con-herramientas-avanzadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración con Herramientas Avanzadas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#informacion-general-de-la-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Información general de la red
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Información general de la red">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ver-configuracion-de-red-ip-mascara-puerta-de-enlace-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ver configuración de red (IP, máscara, puerta de enlace, DNS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-interfaces-de-red-activas" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver interfaces de red activas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-mostrar-tabla-de-enrutamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Mostrar tabla de enrutamiento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ver-conexiones-de-red-y-puertos-abiertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Ver conexiones de red y puertos abiertos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escaneo-y-analisis-de-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Escaneo y análisis de red
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Escaneo y análisis de red">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-ver-equipos-en-la-misma-red-con-netbios" class="md-nav__link">
+    <span class="md-ellipsis">
+      5️⃣ Ver equipos en la misma red (con NetBIOS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-hacer-ping-a-un-dispositivo-para-verificar-conectividad" class="md-nav__link">
+    <span class="md-ellipsis">
+      6️⃣ Hacer ping a un dispositivo para verificar conectividad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-rastrear-la-ruta-a-un-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      7️⃣ Rastrear la ruta a un host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-escaneo-de-puertos-abiertos-en-un-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      8️⃣ Escaneo de puertos abiertos en un host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-obtener-informacion-sobre-la-direccion-mac-y-el-fabricante" class="md-nav__link">
+    <span class="md-ellipsis">
+      9️⃣ Obtener información sobre la dirección MAC y el fabricante
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#informacion-de-redes-wi-fi" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Información de redes Wi-Fi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Información de redes Wi-Fi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ver-redes-wi-fi-guardadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔟 Ver redes Wi-Fi guardadas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escaneo-avanzado-con-herramientas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Escaneo avanzado con herramientas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procesos-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Procesos en ejecución
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Procesos en ejecución">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-listar-todos-los-procesos-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Listar todos los procesos activos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-detalles-avanzados-de-un-proceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver detalles avanzados de un proceso
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-terminar-un-proceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Terminar un proceso
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicios-en-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Servicios en Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Servicios en Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-listar-servicios-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Listar servicios en ejecución
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ver-detalles-de-un-servicio-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      5️⃣ Ver detalles de un servicio específico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-iniciar-o-detener-un-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      6️⃣ Iniciar o detener un servicio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-obtener-la-configuracion-completa-de-un-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      7️⃣ Obtener la configuración completa de un servicio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-ver-servicios-en-un-equipo-remoto" class="md-nav__link">
+    <span class="md-ellipsis">
+      8️⃣ Ver servicios en un equipo remoto
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoreo-avanzado-con-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Monitoreo avanzado con PowerShell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Monitoreo avanzado con PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-ver-procesos-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      9️⃣ Ver procesos en ejecución
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listar-servicios-y-su-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔟 Listar servicios y su estado
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas-avanzadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Herramientas avanzadas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Footprinting & Scanning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Footprinting & Scanning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../footprinting-and-scanning/nmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NMAP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../footprinting-and-scanning/nmap-scripting-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nmap Scripting Engine (NSE)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../footprinting-and-scanning/server-message-block/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Message Block (SMB)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Operating Systems
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Operating Systems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/linux/privilege-escalation/common-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Privilege Escalation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_1" id="__nav_3_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Protocols
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Protocols
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/windows/protocols/server-message-block/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Message Block (SMB)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Vulns
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Vulns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_2_1" id="__nav_3_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Privilege Escalation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Privilege Escalation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/windows/vulns/privilege-escalation/load-incognito/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    load incognito
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/windows/vulns/privilege-escalation/selmporesionateprivilege-privilege/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SelmporesionatePrivilege Privilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/windows/cmd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CMD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/windows/common-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/windows/important-proccess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    important proccess
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tips
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Tips
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/cadaver-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cadaver
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/crackmapexec-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Crackmapexec
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/davtest-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Davtest
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/dirb-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dirb
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/enum4linux-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enum4Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/ffuf-tips.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ffuf
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/hydra-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hydra
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/msfconsole-tips.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Msfconsole
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/msfvenom-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Msfvenom
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/pivoting-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pivoting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/smbclient-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMBClient
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/smbmap-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMBMap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/smtp-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/smtp-enum-tips.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMTP Enum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-tools/winrm-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WinRM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/cadaver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cadaver
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/crackmapexec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Crackmapexec
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/davtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Davtest
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/dirb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dirb
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/enum4linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enum4Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/ffuf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ffuf
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/httrack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Httrack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/hydra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hydra
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/kiwi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kiwi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/msfconsole/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Msfconsole
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/msfvenom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Msfvenom
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/mysql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mysql
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/nessus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/psexec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PSExec
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/smbclient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMBClient
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/smbmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMBMap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/winrm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WinRM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/xfreerdp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    XfreeRDP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Transferring Files
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Transferring Files
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../transferring-files/linux/transferring-files-to-linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Transferring Files To Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../transferring-files/windows/transferring-files-to-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Transferring Files To Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Upgrading Non-Interactive Shells
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Upgrading Non-Interactive Shells
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upgrading-non-interactive-shells/linux/upgrading-non-interactive-shell-linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Upgrading Non-Interactive Shell Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upgrading-non-interactive-shells/windows/upgrading-non-interactive-shell-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Upgrading Non-Interactive Shell Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#explicacion-de-cada-parte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explicación de cada parte:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-de-usuarios-en-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración de Usuarios en Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Enumeración de Usuarios en Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ver-usuarios-locales-en-el-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ver usuarios locales en el sistema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-detalles-de-un-usuario-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver detalles de un usuario específico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-enumerar-usuarios-con-wmic" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Enumerar usuarios con WMIC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ver-usuarios-en-una-maquina-remota" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Ver usuarios en una máquina remota
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-de-grupos-en-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración de Grupos en Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Enumeración de Grupos en Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ver-todos-los-grupos-locales" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ver todos los grupos locales
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-usuarios-dentro-de-un-grupo-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver usuarios dentro de un grupo específico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-enumerar-grupos-con-wmic" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Enumerar grupos con WMIC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-de-usuarios-y-grupos-en-active-directory-si-estas-en-un-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración de Usuarios y Grupos en Active Directory (si estás en un dominio)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Enumeración de Usuarios y Grupos en Active Directory (si estás en un dominio)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-listar-todos-los-usuarios-de-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Listar todos los usuarios de Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-todos-los-grupos-de-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver todos los grupos de Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ver-los-miembros-de-un-grupo-en-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Ver los miembros de un grupo en Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion-con-herramientas-avanzadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Enumeración con Herramientas Avanzadas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#informacion-general-de-la-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Información general de la red
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Información general de la red">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ver-configuracion-de-red-ip-mascara-puerta-de-enlace-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Ver configuración de red (IP, máscara, puerta de enlace, DNS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-interfaces-de-red-activas" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver interfaces de red activas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-mostrar-tabla-de-enrutamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Mostrar tabla de enrutamiento
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ver-conexiones-de-red-y-puertos-abiertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Ver conexiones de red y puertos abiertos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escaneo-y-analisis-de-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Escaneo y análisis de red
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Escaneo y análisis de red">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-ver-equipos-en-la-misma-red-con-netbios" class="md-nav__link">
+    <span class="md-ellipsis">
+      5️⃣ Ver equipos en la misma red (con NetBIOS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-hacer-ping-a-un-dispositivo-para-verificar-conectividad" class="md-nav__link">
+    <span class="md-ellipsis">
+      6️⃣ Hacer ping a un dispositivo para verificar conectividad
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-rastrear-la-ruta-a-un-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      7️⃣ Rastrear la ruta a un host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-escaneo-de-puertos-abiertos-en-un-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      8️⃣ Escaneo de puertos abiertos en un host
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-obtener-informacion-sobre-la-direccion-mac-y-el-fabricante" class="md-nav__link">
+    <span class="md-ellipsis">
+      9️⃣ Obtener información sobre la dirección MAC y el fabricante
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#informacion-de-redes-wi-fi" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Información de redes Wi-Fi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Información de redes Wi-Fi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ver-redes-wi-fi-guardadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔟 Ver redes Wi-Fi guardadas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escaneo-avanzado-con-herramientas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Escaneo avanzado con herramientas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procesos-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Procesos en ejecución
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Procesos en ejecución">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-listar-todos-los-procesos-activos" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Listar todos los procesos activos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ver-detalles-avanzados-de-un-proceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Ver detalles avanzados de un proceso
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-terminar-un-proceso" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Terminar un proceso
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicios-en-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Servicios en Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Servicios en Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-listar-servicios-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Listar servicios en ejecución
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ver-detalles-de-un-servicio-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      5️⃣ Ver detalles de un servicio específico
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-iniciar-o-detener-un-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      6️⃣ Iniciar o detener un servicio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-obtener-la-configuracion-completa-de-un-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      7️⃣ Obtener la configuración completa de un servicio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-ver-servicios-en-un-equipo-remoto" class="md-nav__link">
+    <span class="md-ellipsis">
+      8️⃣ Ver servicios en un equipo remoto
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoreo-avanzado-con-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Monitoreo avanzado con PowerShell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔹 Monitoreo avanzado con PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-ver-procesos-en-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      9️⃣ Ver procesos en ejecución
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listar-servicios-y-su-estado" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔟 Listar servicios y su estado
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas-avanzadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Herramientas avanzadas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Windows Enumeration</h1>
+
+<pre><code>wmic qfe get Caption,Description,HotFixID,InstalledOn
+</code></pre>
+<p>Sirve para listar las actualizaciones de Windows (hotfixes o parches) instaladas en el sistema.</p>
+<h3 id="explicacion-de-cada-parte">Explicación de cada parte:</h3>
+<ul>
+<li><strong><code>wmic</code></strong> → Ejecuta la herramienta Windows Management Instrumentation Command-line (WMIC).</li>
+<li><strong><code>qfe</code></strong> → Se refiere a <em>Quick Fix Engineering</em>, que es el módulo que gestiona los parches del sistema.</li>
+<li><strong><code>get</code></strong> → Indica que queremos obtener información.</li>
+<li><strong><code>Caption,Description,HotFixID,InstalledOn</code></strong> → Especifica qué columnas de información mostrar:<ul>
+<li><strong>Caption</strong>: Nombre descriptivo de la actualización.</li>
+<li><strong>Description</strong>: Generalmente indica que es una "Actualización de seguridad".</li>
+<li><strong>HotFixID</strong>: Identificador único de la actualización (KBXXXXXX).</li>
+<li><strong>InstalledOn</strong>: Fecha en que se instaló el parche.</li>
+</ul>
+</li>
+</ul>
+<p>Para enumerar usuarios y grupos en Windows, puedes usar varios métodos dependiendo del nivel de detalle que necesites. Aquí te dejo algunas opciones con sus respectivos comandos.</p>
+<hr />
+<h2 id="enumeracion-de-usuarios-en-windows">🔹 <strong>Enumeración de Usuarios en Windows</strong></h2>
+<h3 id="1-ver-usuarios-locales-en-el-sistema">1️⃣ <strong>Ver usuarios locales en el sistema</strong></h3>
+<pre><code class="language-cmd">net user
+</code></pre>
+<p>🔹 Muestra todos los usuarios creados en el sistema.</p>
+<h3 id="2-ver-detalles-de-un-usuario-especifico">2️⃣ <strong>Ver detalles de un usuario específico</strong></h3>
+<pre><code class="language-cmd">net user &lt;nombre_usuario&gt;
+</code></pre>
+<p>🔹 Sustituye <code>&lt;nombre_usuario&gt;</code> por el usuario que quieras consultar.<br />
+🔹 Esto te dará información sobre grupos, permisos, fecha de última conexión, etc.</p>
+<h3 id="3-enumerar-usuarios-con-wmic">3️⃣ <strong>Enumerar usuarios con WMIC</strong></h3>
+<pre><code class="language-cmd">wmic useraccount get name,sid
+</code></pre>
+<p>🔹 Muestra el nombre y el <strong>Security Identifier (SID)</strong> de cada usuario.</p>
+<h3 id="4-ver-usuarios-en-una-maquina-remota">4️⃣ <strong>Ver usuarios en una máquina remota</strong></h3>
+<pre><code class="language-cmd">wmic /node:&lt;IP_o_NombreDelEquipo&gt; useraccount get name
+</code></pre>
+<p>🔹 Útil para auditorías en redes.</p>
+<hr />
+<h2 id="enumeracion-de-grupos-en-windows">🔹 <strong>Enumeración de Grupos en Windows</strong></h2>
+<h3 id="1-ver-todos-los-grupos-locales">1️⃣ <strong>Ver todos los grupos locales</strong></h3>
+<pre><code class="language-cmd">net localgroup
+</code></pre>
+<p>🔹 Muestra todos los grupos del sistema (como Administradores, Usuarios, Invitados, etc.).</p>
+<h3 id="2-ver-usuarios-dentro-de-un-grupo-especifico">2️⃣ <strong>Ver usuarios dentro de un grupo específico</strong></h3>
+<pre><code class="language-cmd">net localgroup Administradores
+</code></pre>
+<p>🔹 Sustituye <code>Administradores</code> por otro grupo si necesitas información de otro.</p>
+<h3 id="3-enumerar-grupos-con-wmic">3️⃣ <strong>Enumerar grupos con WMIC</strong></h3>
+<pre><code class="language-cmd">wmic group get name,sid
+</code></pre>
+<p>🔹 Muestra los nombres y SIDs de los grupos.</p>
+<hr />
+<h2 id="enumeracion-de-usuarios-y-grupos-en-active-directory-si-estas-en-un-dominio">🔹 <strong>Enumeración de Usuarios y Grupos en Active Directory (si estás en un dominio)</strong></h2>
+<p>Si estás en un dominio, puedes usar <strong>PowerShell</strong>.</p>
+<h3 id="1-listar-todos-los-usuarios-de-active-directory">1️⃣ <strong>Listar todos los usuarios de Active Directory</strong></h3>
+<pre><code class="language-powershell">Get-ADUser -Filter * | Select Name,SamAccountName
+</code></pre>
+<p>🔹 Muestra los nombres de usuario en un entorno de dominio.</p>
+<h3 id="2-ver-todos-los-grupos-de-active-directory">2️⃣ <strong>Ver todos los grupos de Active Directory</strong></h3>
+<pre><code class="language-powershell">Get-ADGroup -Filter * | Select Name
+</code></pre>
+<h3 id="3-ver-los-miembros-de-un-grupo-en-active-directory">3️⃣ <strong>Ver los miembros de un grupo en Active Directory</strong></h3>
+<pre><code class="language-powershell">Get-ADGroupMember -Identity &quot;Administradores del dominio&quot;
+</code></pre>
+<hr />
+<h2 id="enumeracion-con-herramientas-avanzadas">🔹 <strong>Enumeración con Herramientas Avanzadas</strong></h2>
+<p>Si necesitas más herramientas avanzadas, puedes usar:</p>
+<ul>
+<li><strong>PowerView</strong> (parte de PowerSploit) → para enumeración en entornos de dominio.</li>
+<li><strong>BloodHound</strong> → para analizar la estructura de permisos en redes Windows.</li>
+<li><strong>PsExec</strong> → para ejecutar comandos remotamente.</li>
+</ul>
+<hr />
+<h2 id="informacion-general-de-la-red">🔹 <strong>Información general de la red</strong></h2>
+<p>Para obtener información de la red en Windows, hay varios comandos que puedes usar dependiendo del nivel de detalle que necesites. Aquí tienes una lista de los más útiles:</p>
+<h3 id="1-ver-configuracion-de-red-ip-mascara-puerta-de-enlace-dns">1️⃣ <strong>Ver configuración de red (IP, máscara, puerta de enlace, DNS)</strong></h3>
+<pre><code class="language-cmd">ipconfig /all
+</code></pre>
+<p>🔹 Muestra información completa sobre todas las interfaces de red del sistema, incluyendo direcciones IP, MAC, servidores DNS y DHCP.</p>
+<h3 id="2-ver-interfaces-de-red-activas">2️⃣ <strong>Ver interfaces de red activas</strong></h3>
+<pre><code class="language-cmd">ipconfig
+</code></pre>
+<p>🔹 Muestra solo las interfaces con conexión activa.</p>
+<h3 id="3-mostrar-tabla-de-enrutamiento">3️⃣ <strong>Mostrar tabla de enrutamiento</strong></h3>
+<pre><code class="language-cmd">route print
+</code></pre>
+<p>🔹 Muestra las rutas disponibles en el sistema, útil para analizar tráfico de red y posibles configuraciones incorrectas.</p>
+<h3 id="4-ver-conexiones-de-red-y-puertos-abiertos">4️⃣ <strong>Ver conexiones de red y puertos abiertos</strong></h3>
+<pre><code class="language-cmd">netstat -ano
+</code></pre>
+<p>🔹 Muestra todas las conexiones activas, los puertos abiertos y los PID de los procesos que los están usando.</p>
+<p><strong>Opciones útiles:</strong></p>
+<ul>
+<li><code>netstat -an</code> → Muestra conexiones activas con direcciones IP y puertos.</li>
+<li><code>netstat -ano</code> → Incluye el <strong>PID</strong> de los procesos que están usando cada conexión.</li>
+<li><code>netstat -r</code> → Muestra la tabla de enrutamiento.</li>
+<li><code>netstat -s</code> → Muestra estadísticas de paquetes enviados y recibidos.</li>
+</ul>
+<hr />
+<h2 id="escaneo-y-analisis-de-red">🔹 <strong>Escaneo y análisis de red</strong></h2>
+<h3 id="5-ver-equipos-en-la-misma-red-con-netbios">5️⃣ <strong>Ver equipos en la misma red (con NetBIOS)</strong></h3>
+<pre><code class="language-cmd">nbtstat -n
+</code></pre>
+<p>🔹 Muestra los nombres NetBIOS registrados en el sistema.</p>
+<pre><code class="language-cmd">nbtstat -A &lt;IP&gt;
+</code></pre>
+<p>🔹 Consulta el nombre NetBIOS de un equipo en la red.</p>
+<pre><code class="language-cmd">net view
+</code></pre>
+<p>🔹 Lista los equipos accesibles en la red local.</p>
+<h3 id="6-hacer-ping-a-un-dispositivo-para-verificar-conectividad">6️⃣ <strong>Hacer ping a un dispositivo para verificar conectividad</strong></h3>
+<pre><code class="language-cmd">ping &lt;IP_o_Dominio&gt;
+</code></pre>
+<p>🔹 Envía paquetes ICMP para comprobar si un host está accesible.</p>
+<pre><code class="language-cmd">ping -t &lt;IP&gt;
+</code></pre>
+<p>🔹 Hace ping continuo hasta que se detenga manualmente (<code>Ctrl + C</code>).</p>
+<h3 id="7-rastrear-la-ruta-a-un-host">7️⃣ <strong>Rastrear la ruta a un host</strong></h3>
+<pre><code class="language-cmd">tracert &lt;IP_o_Dominio&gt;
+</code></pre>
+<p>🔹 Muestra los nodos intermedios por los que pasa un paquete antes de llegar a su destino.</p>
+<h3 id="8-escaneo-de-puertos-abiertos-en-un-host">8️⃣ <strong>Escaneo de puertos abiertos en un host</strong></h3>
+<pre><code class="language-cmd">netstat -an | find &quot;LISTENING&quot;
+</code></pre>
+<p>🔹 Muestra solo los puertos que están en estado <strong>LISTENING</strong>.</p>
+<pre><code class="language-cmd">powershell Test-NetConnection -ComputerName &lt;IP_o_Dominio&gt; -Port &lt;NúmeroPuerto&gt;
+</code></pre>
+<p>🔹 Verifica si un puerto está abierto en un equipo remoto.</p>
+<h3 id="9-obtener-informacion-sobre-la-direccion-mac-y-el-fabricante">9️⃣ <strong>Obtener información sobre la dirección MAC y el fabricante</strong></h3>
+<pre><code class="language-cmd">getmac /v /fo list
+</code></pre>
+<p>🔹 Muestra las direcciones MAC de todas las interfaces.</p>
+<pre><code class="language-cmd">arp -a
+</code></pre>
+<p>🔹 Muestra la tabla ARP con direcciones IP y MAC de los dispositivos conectados.</p>
+<hr />
+<h2 id="informacion-de-redes-wi-fi">🔹 <strong>Información de redes Wi-Fi</strong></h2>
+<h3 id="ver-redes-wi-fi-guardadas">🔟 <strong>Ver redes Wi-Fi guardadas</strong></h3>
+<pre><code class="language-cmd">netsh wlan show profiles
+</code></pre>
+<p>🔹 Lista todas las redes Wi-Fi a las que se ha conectado el equipo.</p>
+<pre><code class="language-cmd">netsh wlan show profile name=&quot;&lt;SSID&gt;&quot; key=clear
+</code></pre>
+<p>🔹 Muestra los detalles de una red Wi-Fi específica, incluyendo la clave de seguridad en texto plano.</p>
+<hr />
+<h2 id="escaneo-avanzado-con-herramientas">🔹 <strong>Escaneo avanzado con herramientas</strong></h2>
+<p>Si necesitas algo más avanzado, puedes usar:</p>
+<ul>
+<li><strong>Nmap</strong> → Para escanear redes y descubrir dispositivos.</li>
+<li><strong>Wireshark</strong> → Para capturar y analizar paquetes de red.</li>
+<li><strong>PowerView</strong> → Para enumeración en entornos de dominio.</li>
+</ul>
+<hr />
+<h2 id="procesos-en-ejecucion">🔹 <strong>Procesos en ejecución</strong></h2>
+<p>Para enumerar <strong>procesos y servicios</strong> en Windows, puedes usar diferentes comandos según el nivel de detalle que necesites. Aquí tienes las opciones más útiles:</p>
+<h3 id="1-listar-todos-los-procesos-activos">1️⃣ <strong>Listar todos los procesos activos</strong></h3>
+<pre><code class="language-cmd">tasklist
+</code></pre>
+<p>🔹 Muestra una lista de procesos con su <strong>PID (Process ID)</strong>, uso de memoria y nombre del ejecutable.</p>
+<pre><code class="language-cmd">tasklist /svc
+</code></pre>
+<p>🔹 Muestra los procesos junto con los servicios que están ejecutando.</p>
+<pre><code class="language-cmd">tasklist /fi &quot;imagename eq notepad.exe&quot;
+</code></pre>
+<p>🔹 Filtra los procesos por nombre (ejemplo: <code>notepad.exe</code>).</p>
+<pre><code class="language-cmd">tasklist /fi &quot;pid eq 1234&quot;
+</code></pre>
+<p>🔹 Muestra información del proceso con el ID <code>1234</code>.</p>
+<h3 id="2-ver-detalles-avanzados-de-un-proceso">2️⃣ <strong>Ver detalles avanzados de un proceso</strong></h3>
+<pre><code class="language-cmd">wmic process list full
+</code></pre>
+<p>🔹 Muestra información detallada de todos los procesos en ejecución.</p>
+<pre><code class="language-cmd">wmic process where name=&quot;chrome.exe&quot; get ProcessId,ParentProcessId,CommandLine
+</code></pre>
+<p>🔹 Muestra el PID, el proceso padre y la línea de comando con la que se inició un proceso específico (<code>chrome.exe</code> en este caso).</p>
+<h3 id="3-terminar-un-proceso">3️⃣ <strong>Terminar un proceso</strong></h3>
+<pre><code class="language-cmd">taskkill /PID 1234 /F
+</code></pre>
+<p>🔹 Mata el proceso con el ID <code>1234</code>.</p>
+<pre><code class="language-cmd">taskkill /IM notepad.exe /F
+</code></pre>
+<p>🔹 Mata todos los procesos con el nombre <code>notepad.exe</code>.</p>
+<hr />
+<h2 id="servicios-en-windows">🔹 <strong>Servicios en Windows</strong></h2>
+<h3 id="4-listar-servicios-en-ejecucion">4️⃣ <strong>Listar servicios en ejecución</strong></h3>
+<pre><code class="language-cmd">net start
+</code></pre>
+<p>🔹 Muestra una lista de servicios que están <strong>en ejecución</strong>.</p>
+<pre><code class="language-cmd">wmic service get Name,DisplayName,State
+</code></pre>
+<p>🔹 Muestra los servicios junto con su nombre y estado (Running o Stopped).</p>
+<h3 id="5-ver-detalles-de-un-servicio-especifico">5️⃣ <strong>Ver detalles de un servicio específico</strong></h3>
+<pre><code class="language-cmd">sc query &lt;NombreDelServicio&gt;
+</code></pre>
+<p>🔹 Sustituye <code>&lt;NombreDelServicio&gt;</code> por el nombre real del servicio.</p>
+<p>Ejemplo para el servicio de Windows Update:</p>
+<pre><code class="language-cmd">sc query wuauserv
+</code></pre>
+<h3 id="6-iniciar-o-detener-un-servicio">6️⃣ <strong>Iniciar o detener un servicio</strong></h3>
+<pre><code class="language-cmd">sc start &lt;NombreDelServicio&gt;
+</code></pre>
+<p>🔹 Inicia un servicio.</p>
+<pre><code class="language-cmd">sc stop &lt;NombreDelServicio&gt;
+</code></pre>
+<p>🔹 Detiene un servicio.</p>
+<p>Ejemplo:</p>
+<pre><code class="language-cmd">sc start wuauserv
+sc stop wuauserv
+</code></pre>
+<h3 id="7-obtener-la-configuracion-completa-de-un-servicio">7️⃣ <strong>Obtener la configuración completa de un servicio</strong></h3>
+<pre><code class="language-cmd">sc qc &lt;NombreDelServicio&gt;
+</code></pre>
+<p>🔹 Muestra el binario que ejecuta el servicio, tipo de inicio, permisos, etc.</p>
+<p>Ejemplo:</p>
+<pre><code class="language-cmd">sc qc Spooler
+</code></pre>
+<h3 id="8-ver-servicios-en-un-equipo-remoto">8️⃣ <strong>Ver servicios en un equipo remoto</strong></h3>
+<pre><code class="language-cmd">sc \\&lt;IP_o_NombreDelEquipo&gt; query
+</code></pre>
+<p>🔹 Lista los servicios en un equipo remoto.</p>
+<hr />
+<h2 id="monitoreo-avanzado-con-powershell">🔹 <strong>Monitoreo avanzado con PowerShell</strong></h2>
+<h3 id="9-ver-procesos-en-ejecucion">9️⃣ <strong>Ver procesos en ejecución</strong></h3>
+<pre><code class="language-powershell">Get-Process
+</code></pre>
+<p>🔹 Muestra los procesos en ejecución con detalles como uso de memoria y CPU.</p>
+<pre><code class="language-powershell">Get-Process | Where-Object { $_.ProcessName -like &quot;*chrome*&quot; }
+</code></pre>
+<p>🔹 Filtra los procesos por nombre.</p>
+<h3 id="listar-servicios-y-su-estado">🔟 <strong>Listar servicios y su estado</strong></h3>
+<pre><code class="language-powershell">Get-Service
+</code></pre>
+<p>🔹 Muestra todos los servicios con su estado (Running o Stopped).</p>
+<pre><code class="language-powershell">Get-Service -Name Spooler
+</code></pre>
+<p>🔹 Muestra detalles del servicio <code>Spooler</code>.</p>
+<hr />
+<h2 id="herramientas-avanzadas">🚀 <strong>Herramientas avanzadas</strong></h2>
+<p>Si quieres algo más gráfico o detallado:</p>
+<ul>
+<li><strong>Process Explorer</strong> → Alternativa avanzada al Administrador de Tareas.</li>
+<li><strong>Process Hacker</strong> → Para ver detalles avanzados de procesos y servicios.</li>
+<li><strong>Autoruns</strong> → Para analizar programas que se inician con el sistema.</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.highlight", "search.suggest", "tabs.sticky", "tabs.sticky"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
