@@ -55,6 +55,6 @@ Si encuentras algún error, tienes una sugerencia o simplemente quieres comparti
 
 * **LinkedIn:** [Brian Lopez Medina](https://www.linkedin.com/in/brian-lm/)
 * **GitHub:** [BrianLopezM99](https://github.com/BrianLopezM99)
-* **HackTheBox:** [BrianM #111663](https://www.hackthebox.com/users/111663)
+* **HackTheBox:** [BrianM Hacker Rank](https://profile.hackthebox.com/profile/019cb5bb-5100-7085-afff-bd5cdc273dd9)
 
 **_Puedes comenzar a explorar los temas usando el menú de navegación superior._**
